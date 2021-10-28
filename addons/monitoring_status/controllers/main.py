@@ -28,8 +28,10 @@ logging.getLogger('werkzeug').addFilter(
 class Monitoring(http.Controller):
 
     @http.route('/monitoring/status', type='http', auth='none')
-    def status(self):
-        ensure_db()
+    def status(self, nodb=False):
+        # for multiple db instance, maybe not sure to any one.
+        if not nodb:
+            ensure_db()
         # TODO: add 'sub-systems' status and infos:
         # queue job, cron, database, ...
         headers = {'Content-Type': 'application/json'}
